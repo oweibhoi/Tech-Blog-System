@@ -1,0 +1,18 @@
+body {
+    padding: 0px;
+    background-color: darkgray;
+}
+#search-form{
+    width: 100%;
+}
+#cover{
+    background-image: url('/images/cover.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 300px;
+}
+#cover h1{
+    font-size: 6rem;
+    color: aliceblue;
+}
