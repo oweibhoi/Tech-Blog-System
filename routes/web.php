@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RegisterController;
@@ -27,3 +28,5 @@ Route::post('/register', [RegisterController::class, 'store'])->middleware('gues
 Route::post('/logout', [SessionController::class, 'destroy']);
 Route::get('/login', [SessionController::class, 'login'])->middleware('guest');
 Route::post('/login', [SessionController::class, 'create'])->middleware('guest');
+Route::post('/comment', [CommentsController::class, 'store'])->middleware('auth');
+Route::post('/reply-comment', [CommentsController::class, 'storeReplyComment'])->middleware('auth');

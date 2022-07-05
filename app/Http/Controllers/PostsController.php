@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Posts;
 use App\Models\Category;
+use App\Models\Comments;
 use App\Models\User;
 
 class PostsController extends Controller
@@ -16,7 +17,11 @@ class PostsController extends Controller
 
     public function get_post_by_id(Request $rq, Posts $posts){
         $post = $posts->find($rq->id);
-        return view('post', compact('post'));
+        $comment = Comments::where('post_id', $rq->id)
+                            ->where('parent_id', '<>', '0')
+                            ->get();
+
+        return view('post', compact(['post', 'comment']));
     }
 
     public function get_post_by_category(Request $rq, Category $category){
