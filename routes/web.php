@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RegisterController;
@@ -30,3 +32,8 @@ Route::get('/login', [SessionController::class, 'login'])->middleware('guest');
 Route::post('/login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('/comment', [CommentsController::class, 'store'])->middleware('auth');
 Route::post('/reply-comment', [CommentsController::class, 'storeReplyComment'])->middleware('auth');
+
+Route::get('/posts/create', [PostsController::class, 'create']);
+Route::post('/posts/store', [PostsController::class, 'store']);
+
+Route::get('myaccount', [AccountController::class, 'index'])->middleware('auth');

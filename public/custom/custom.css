@@ -1,6 +1,6 @@
 body {
     padding: 0px;
-    background-color: darkgray;
+    background-color: lightgray;
 }
 #search-form{
     width: 100%;
@@ -15,4 +15,19 @@ body {
 #cover h1{
     font-size: 6rem;
     color: aliceblue;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-read-more {
+    position: absolute;
+    top: 85%;
+    right: 10%;
+}
+
+.thumbnail-image {
+    height: 450px;
+    width: 600px;
 }

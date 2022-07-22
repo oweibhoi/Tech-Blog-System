@@ -15,7 +15,9 @@
         "itsgoingd/clockwork": "^5.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "mailchimp/marketing": "^3.0",
+        "spatie/laravel-newsletter": "^4.11"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

@@ -7,6 +7,7 @@ use App\Models\Posts;
 use App\Models\Category;
 use App\Models\Comments;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class PostsController extends Controller
 {
@@ -41,5 +42,32 @@ class PostsController extends Controller
     public function search_post(Posts $posts){
         $list_of_posts = $posts->where('title', 'like', '%'.request('searchbox').'%')->paginate(5);
         return view('home', compact('list_of_posts'));
+    }
+
+    public function create(){
+        if(auth()->guest()){
+            return view('login');
+        }
+        return view('create_post');
+    }
+
+    public function store(){
+        if(auth()->guest()){
+            return view('login');
+        }
+
+        $attributes = request()->validate([
+            'title' => ['required', Rule::unique('posts', 'title')],
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'thumbnail' => 'required|image'
+        ]);
+        $attributes['user_id'] = auth()->id();
+        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
+
+        $res = Posts::create($attributes);
+
+        return redirect("post/".$res->id);
     }
 }
