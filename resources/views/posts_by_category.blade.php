@@ -13,5 +13,8 @@
     </div>
 </div>
 @endforeach
+@if(count($list_of_posts) === 0)
+<p class="text-center mt-5">No Post</p>
+@endif
 <a href="/" class="btn btn-primary m-5">Back</a>
 @endsection

@@ -35,5 +35,8 @@ Route::post('/reply-comment', [CommentsController::class, 'storeReplyComment'])-
 
 Route::get('/posts/create', [PostsController::class, 'create']);
 Route::post('/posts/store', [PostsController::class, 'store']);
+Route::get('/posts/edit/{id}', [PostsController::class, 'edit']);
+Route::post('/posts/update', [PostsController::class, 'update']);
 
 Route::get('myaccount', [AccountController::class, 'index'])->middleware('auth');
+Route::post('/publish-post', [PostsController::class, 'publish']);

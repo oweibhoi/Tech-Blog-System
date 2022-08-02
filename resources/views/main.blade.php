@@ -22,7 +22,7 @@
             </a>
             <div class="d-flex align-items-end">
                 @auth
-                <a class="btn btn-outline-success" href="/myaccount">My Account</a>&nbsp;
+                <a class="btn btn-outline-success" href="/myaccount">My Dashboard</a>&nbsp;
                 <form class="d-flex" role="search" method="POST" action="/logout">
                     @csrf
                     <button class="btn btn-outline-danger" type="submit">Logout</button>&nbsp;

@@ -22,6 +22,7 @@ class CreatePostsTable extends Migration
             $table->timestamp('published_at')->nullable();
             $table->foreignId('category_id');
             $table->foreignId('user_id');
+            $table->smallInteger('status')->default(1);
             $table->timestamps();
         });
     }

@@ -39,7 +39,12 @@
 
             <div class="col-md-4">
                 <div class="m-5 bg-gray-50 rounded-lg p-5">
-                    <h2>Category</h2>
+                    <h2 class="mb-3">Category</h2>
+                    <div class="list-group">
+                        @foreach($list_of_category as $cat)
+                        <a href="/categories/{{ $cat->id }}" class="list-group-item list-group-item-action">{{ $cat->name }}</a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,26 +5,15 @@
     <div class="card-body">
         <h1 class="text-2xl mb-3">My Account</h1>
         <div class="row">
-            <div class="col-md-3">
-                <div class="list-group">
-                    @if(auth()->user()->username !== 'Administrator')
-                    <a href="#" class="list-group-item list-group-item-action {{ request()->route()->uri === 'myaccount' ? 'active' : '' }}">
-                        My Post
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">Profile</a>
-                    @else
-                    <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                    <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                    <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-                    @endif
-                </div>
-            </div>
+            <x-sidemenu></x-sidemenu>
             <div class="col-md-9">
+                <a href="/posts/create" class="btn btn-primary float-right">Create Post</a><br><br>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Status</th>
                             <th scope="col" class="w-80">Action</th>
                         </tr>
                     </thead>
@@ -34,8 +23,19 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->category->name }}</td>
                             <td>
-                                <button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> EDIT</button>
-                                <button class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> INACTIVE</button>
+                                @php
+                                if($post->status == '1'){
+                                echo '<span class="badge badge-primary">New Draft</span>';
+                                } else {
+                                echo '<span class="badge badge-success">Published</span>';
+                                }
+                                @endphp
+                            </td>
+                            <td>
+                                <a href="/posts/edit/{{ $post->id }}" class="btn btn-primary btn-sm">EDIT</a>
+                                @if($post->status == 1) <form action="/publish-post" method="post">@csrf<input type="hidden" value="{{ $post->id }}" name="post_id"><input type="hidden" value="2" name="action"><button class="btn btn-success btn-sm">PUBLISHED</button></form>@endif
+                                <form action="/publish-post" method="post">@csrf<input type="hidden" value="{{ $post->id }}" name="post_id"><input type="hidden" value="0" name="action"><button class="btn btn-danger btn-sm">DELETE</button></form>
+
                             </td>
                         </tr>
                         @endforeach
