@@ -27,6 +27,12 @@ body {
     right: 10%;
 }
 
+.content-like-dislike {
+    position: absolute;
+    top: 85%;
+    left: 10%;
+}
+
 .thumbnail-image {
     height: 450px;
     width: 600px;

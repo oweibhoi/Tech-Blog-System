@@ -18,6 +18,12 @@
                             Author: <a href="/authors/{{ $post->author->id }}">{{ $post->author->username }}</a> <br>
                             Category: <a href="/categories/{{ $post->category->id }}">{{ $post->category->name }}</a>
                             <p class="text-sm italic mt-4">{{ $post->excerpt }}</p>
+                            <div class="content-like-dislike">
+                                <a href="javascript:void(0);" class="btn btn-outline-primary rounded-full btn-like"><i class="fa fa-thumbs-up"></i> {{ abbreviateNumber(1200) }}</a>
+                                <a href="javascript:void(0);" class="btn btn-outline-danger rounded-full btn-dislike"><i class="fa fa-thumbs-down"></i> {{ abbreviateNumber(0) }}</a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary rounded-full btn-comment"><i class="fa fa-comment"></i> {{ abbreviateNumber(20) }}</a>
+                            </div>
+
                             <a href="/post/{{ $post->id }}" class="btn btn-outline-primary rounded-full btn-read-more">Read More</a>
                         </div>
                     </div>
