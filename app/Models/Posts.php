@@ -24,4 +24,8 @@ class Posts extends Model
     public function comments(){
         return $this->hasMany(Comments::class, 'post_id')->latest();
     }
+
+    public function reactions(){
+        return $this->hasMany(Reactions::class, 'post_id');
+    }
 }

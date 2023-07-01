@@ -40,6 +40,10 @@ class User extends Authenticatable
         return $this->hasMany(Posts::class);
     }
 
+    public function user_reactions(){
+        return $this->hasMany(Reactions::class);
+    }
+
     public function setPasswordAttribute($password){
         $this->attributes['password'] = bcrypt($password);
     }

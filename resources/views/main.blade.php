@@ -3,8 +3,6 @@
 
 <head>
     <title>BLOG SHIT</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/custom.css') }}">
     <script src="https://kit.fontawesome.com/f2ec8eb7d2.js" crossorigin="anonymous"></script>
@@ -18,7 +16,7 @@
     <nav class="navbar bg-white">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-                <img src="/images/tech.png" alt="" width="200" height="140" class="d-inline-block align-text-top">
+                <img src="/images/tech.png" alt="" width="200" height="100" class="d-inline-block align-text-top">
             </a>
             <div class="d-flex align-items-end">
                 @auth
@@ -35,6 +33,10 @@
         </div>
     </nav>
     @yield('content')
+
+    <!-- Modals Section -->
+    <x-login-reminder />
+    <!-- End Modals Section -->
 </body>
 <footer style="margin-top:5%;">
     <div class="container-fluid">
@@ -44,9 +46,13 @@
         </p>
     </div>
 </footer>
-<x-flash />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('custom/custom.js') }}"></script>
-
+<script>
+    const globalData = {
+        base_url: '{{ url("/") }}',
+        }
+</script>
 </html>

@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\ReactionsController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Models\Category;
@@ -40,3 +41,5 @@ Route::post('/posts/update', [PostsController::class, 'update']);
 
 Route::get('myaccount', [AccountController::class, 'index'])->middleware('auth');
 Route::post('/publish-post', [PostsController::class, 'publish']);
+
+Route::post('/react', [ReactionsController::class, 'reaction'])->middleware('auth');

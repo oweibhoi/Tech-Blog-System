@@ -7,53 +7,77 @@ use App\Models\Posts;
 use App\Models\Category;
 use App\Models\Comments;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class PostsController extends Controller
 {
-    public function get_all_post(Posts $posts, Category $category){
-        $list_of_posts = $posts->where('status', '2')->with('category')->latest()->paginate(5);
+    public function get_all_post(Posts $posts, Category $category)
+    {
+
+        $list_of_posts = DB::table('posts')
+            ->join('users', 'users.id', '=', 'posts.user_id', 'left')
+            ->join('categories', 'categories.id', '=', 'posts.category_id', 'left')
+            ->select(
+                'posts.*',
+                'users.username',
+                'categories.name as category_name',
+                DB::raw('(SELECT count(reaction) FROM reactions WHERE reactions.post_id=posts.id AND reactions.reaction=1) as likes'),
+                DB::raw('(SELECT count(reaction) FROM reactions WHERE reactions.post_id=posts.id AND reactions.reaction=0) as dislikes'),
+                DB::raw('(SELECT count(comments.id) FROM comments WHERE comments.post_id=posts.id) as comments'),
+                DB::raw('(SELECT reactions.reaction FROM reactions WHERE reactions.post_id=posts.id AND reactions.user_id='. auth()->id() .') as reaction')
+            )
+            ->where('status', 2)
+            ->latest('posts.created_at')
+            ->paginate(10);
+
         $list_of_category = $category->get();
         return view('home', compact('list_of_posts', 'list_of_category'));
     }
 
-    public function get_post_by_id(Request $rq, Posts $posts){
+    public function get_post_by_id(Request $rq, Posts $posts)
+    {
         $post = $posts->find($rq->id);
         $comment = Comments::where('post_id', $rq->id)
-                            ->where('parent_id', '<>', '0')
-                            ->get();
+            ->where('parent_id', '<>', '0')
+            ->get();
 
         return view('post', compact(['post', 'comment']));
     }
 
-    public function get_post_by_category(Request $rq, Category $category){
+    public function get_post_by_category(Request $rq, Category $category)
+    {
         $list_of_posts = $category->find($rq->id)->posts->where('status', '2');
         return view('posts_by_category', [
             'list_of_posts' => $list_of_posts
         ]);
     }
 
-    public function get_post_by_author(Request $rq, User $author){
+    public function get_post_by_author(Request $rq, User $author)
+    {
         $list_of_posts = $author->find($rq->id)->user_posts;
         return view('posts_by_author', [
             'list_of_posts' => $list_of_posts
         ]);
     }
 
-    public function search_post(Posts $posts){
-        $list_of_posts = $posts->where('title', 'like', '%'.request('searchbox').'%')->paginate(5);
+    public function search_post(Posts $posts)
+    {
+        $list_of_posts = $posts->where('title', 'like', '%' . request('searchbox') . '%')->paginate(5);
         return view('home', compact('list_of_posts'));
     }
 
-    public function create(){
-        if(auth()->guest()){
+    public function create()
+    {
+        if (auth()->guest()) {
             return view('login');
         }
         return view('create_post');
     }
 
-    public function store(){
-        if(auth()->guest()){
+    public function store()
+    {
+        if (auth()->guest()) {
             return view('login');
         }
 
@@ -73,8 +97,9 @@ class PostsController extends Controller
         return redirect("/myaccount");
     }
 
-    public function publish(Posts $post){
-        if(auth()->guest()){
+    public function publish(Posts $post)
+    {
+        if (auth()->guest()) {
             return view('login');
         }
 
@@ -88,8 +113,9 @@ class PostsController extends Controller
         return redirect("/myaccount")->with('success', $msg);
     }
 
-    public function edit(Request $rq, Posts $post){
-        if(auth()->guest()){
+    public function edit(Request $rq, Posts $post)
+    {
+        if (auth()->guest()) {
             return view('login');
         }
 
@@ -97,8 +123,9 @@ class PostsController extends Controller
         return view('edit_post', compact('posts'));
     }
 
-    public function update(){
-        if(auth()->guest()){
+    public function update()
+    {
+        if (auth()->guest()) {
             return view('login');
         }
 
@@ -108,7 +135,7 @@ class PostsController extends Controller
             'body' => 'required',
             'category_id' => ['required', Rule::exists('categories', 'id')],
         ]);
-        if(request('thumbnail')){
+        if (request('thumbnail')) {
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
         }
 
